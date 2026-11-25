@@ -15,4 +15,4 @@ As fichas apontam para as páginas de origem, onde você pode consultar a ediç�
 
 ## Publicação
 
-O Netlify publica o guia automaticamente a cada push na branch . A página é estática e o conteúdo principal fica em .
+O Netlify publica o guia automaticamente a cada push na branch `main`. A página é estática e o conteúdo principal fica em `index.html`.
