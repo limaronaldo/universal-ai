@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal AI — Guia de estudos em inteligência artificial</title>
+    <style>
+        :root {
+            --bg-primary: #0b0c0e;
+            --bg-secondary: #121418;
+            --bg-card: #171a20;
+            --bg-card-hover: #1d2129;
+            --border-subtle: #262a34;
+            --border-accent: #8c1515;
+            --text-primary: #f0f2f5;
+            --text-secondary: #a0a8b8;
+            --text-muted: #6b7280;
+            --accent-stanford: #b11c1c;
+            --accent-gold: #c9a86a;
+            --accent-link: #e2b870;
+            --accent-emerald: #34d399;
+            --badge-bg: rgba(177, 28, 28, 0.15);
+            --badge-border: rgba(177, 28, 28, 0.4);
+            --badge-gold-bg: rgba(201, 168, 106, 0.12);
+            --badge-gold-border: rgba(201, 168, 106, 0.4);
+            --badge-emerald-bg: rgba(52, 211, 153, 0.12);
+            --badge-emerald-border: rgba(52, 211, 153, 0.35);
+            --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.65;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-link);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(226, 184, 112, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        /* Layout */
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 295px 1fr;
+            max-width: 1480px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-subtle);
+            padding: 2.25rem 1.65rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .brand-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .brand-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.35rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.45rem 0.75rem;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-bottom: none;
+            transition: all 0.15s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .nav-sublist {
+            list-style: none;
+            padding-left: 0.85rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.4rem;
+            border-left: 1px solid var(--border-subtle);
+        }
+
+        .nav-sublist .nav-link {
+            font-size: 0.77rem;
+            padding: 0.28rem 0.65rem;
+            font-family: var(--font-mono);
+        }
+
+        .sidebar-footer {
+            margin-top: 1.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.73rem;
+            color: var(--text-muted);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3.5rem 4rem;
+            max-width: 1100px;
+        }
+
+        /* Hero Header */
+        .hero {
+            background: linear-gradient(135deg, #16181d 0%, #1d1416 100%);
+            border: 1px solid var(--border-subtle);
+            border-left: 4px solid var(--accent-stanford);
+            border-radius: 10px;
+            padding: 2.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.11em;
+            background-color: var(--badge-bg);
+            color: #ff8a8a;
+            border: 1px solid var(--badge-border);
+            padding: 0.28rem 0.7rem;
+            border-radius: 4px;
+        }
+
+        .hero-badge.gold {
+            background-color: var(--badge-gold-bg);
+            color: var(--accent-gold);
+            border-color: var(--badge-gold-border);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.03rem;
+            max-width: 850px;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4.25rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            margin-right: 0.75rem;
+        }
+
+        /* Portal Grid */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .portal-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-gold);
+            background-color: var(--bg-card-hover);
+        }
+
+        .portal-card .portal-type {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .portal-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Callout Box */
+        .callout {
+            background-color: rgba(201, 168, 106, 0.08);
+            border: 1px solid rgba(201, 168, 106, 0.3);
+            border-left: 4px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .callout strong {
+            color: var(--accent-gold);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            background-color: rgba(255, 255, 255, 0.07);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.86em;
+            color: #e5e7eb;
+        }
+
+        /* Course Module Cards */
+        .course-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .course-card.featured {
+            border-color: rgba(201, 168, 106, 0.45);
+            background: linear-gradient(180deg, #171a20 0%, #191715 100%);
+        }
+
+        .course-card.elite {
+            border-color: rgba(52, 211, 153, 0.35);
+            background: linear-gradient(180deg, #171a20 0%, #131c1a 100%);
+        }
+
+        .course-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .course-code {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ff8a8a;
+            background-color: var(--badge-bg);
+            border: 1px solid var(--badge-border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-code.gold {
+            color: var(--accent-gold);
+            background-color: var(--badge-gold-bg);
+            border-color: var(--badge-gold-border);
+        }
+
+        .course-code.emerald {
+            color: var(--accent-emerald);
+            background-color: var(--badge-emerald-bg);
+            border-color: var(--badge-emerald-border);
+        }
+
+        .course-title {
+            font-size: 1.32rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .course-focus {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .links-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-link);
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+
+        .btn-link:hover {
+            background-color: var(--accent-stanford);
+            border-color: var(--accent-stanford);
+            color: #ffffff;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            background-color: var(--bg-secondary);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .syllabus-item h4 {
+            font-size: 0.83rem;
+            font-family: var(--font-mono);
+            color: var(--accent-gold);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .syllabus-item p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        /* Assignments List */
+        .assignments-list {
+            list-style: none;
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .assignment-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-left: 3px solid var(--accent-gold);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        .assignment-item.emerald {
+            border-left-color: var(--accent-emerald);
+        }
+
+        .assignment-item strong {
+            color: #ffffff;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            background-color: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: var(--bg-card-hover);
+        }
+
+        td strong {
+            color: var(--text-primary);
+        }
+
+        /* Roadmap Timeline */
+        .roadmap {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .roadmap-step {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .step-meta {
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 1rem;
+        }
+
+        .step-phase {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            display: block;
+        }
+
+        .step-duration {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .step-body h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-body ul {
+            padding-left: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .step-body li {
+            margin-bottom: 0.35rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 980px) {
+            .layout-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+            .roadmap-step {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .step-meta {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+                padding-right: 0;
+                padding-bottom: 0.5rem;
+            }
+        }
+        /* Editorial reading experience */
+        :root {
+            color-scheme: light;
+            --bg-primary: #f5f2ec;
+            --bg-secondary: #f0ece5;
+            --bg-card: #fffefa;
+            --bg-card-hover: #f8f3eb;
+            --border-subtle: #ded8cd;
+            --text-primary: #252720;
+            --text-secondary: #51574e;
+            --text-muted: #676c62;
+            --accent-stanford: #8c1515;
+            --accent-gold: #8a5c24;
+            --accent-link: #812823;
+            --accent-emerald: #24634f;
+            --badge-bg: #f8eae6;
+            --badge-border: #e8c6bf;
+            --badge-gold-bg: #f3e9d8;
+            --badge-gold-border: #e0d1b7;
+            --badge-emerald-bg: #e7f1ea;
+            --badge-emerald-border: #c6dfcf;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-primary); }
+        a { border-bottom-color: #cfaaa4; overflow-wrap: anywhere; }
+        a:hover { color: #551b19; border-bottom-color: currentColor; }
+        a:focus-visible { outline: 3px solid #b36d28; outline-offset: 4px; }
+        .layout-wrapper { max-width: 1600px; grid-template-columns: 275px minmax(0, 1fr); }
+        .sidebar { background: #222923; border-right: 0; padding: 2.25rem 1.5rem; }
+        .sidebar .brand { border-color: #465149; }
+        .sidebar .brand-title { color: #fffdf6; font-family: Georgia, serif; font-size: 1.3rem; line-height: 1.25; }
+        .sidebar .brand-tag { color: #e1bf80; }
+        .nav-link { color: #d5ded4; padding: .5rem .7rem; }
+        .nav-link:hover { color: #fff; background: #3a463d; }
+        .nav-sublist { border-color: #56645a; }
+        .nav-sublist .nav-link { color: #b9c8ba; font-family: var(--font-sans); }
+        .sidebar-footer { color: #b8c5b9; border-color: #465149; }
+        .main-content { min-width: 0; max-width: 1180px; padding: 3.5rem clamp(1.5rem, 5vw, 5rem) 6rem; }
+        .hero { position: relative; overflow: hidden; background: #812925; border: 0; border-radius: 4px 4px 70px 4px; padding: clamp(2rem, 5vw, 4.5rem); margin-bottom: 4.5rem; box-shadow: 0 18px 45px #5f2e2217; }
+        .hero::after { content: ''; position: absolute; right: -3rem; bottom: -10rem; width: 23rem; height: 23rem; border: 1px solid #ffffff30; border-radius: 50%; box-shadow: 0 0 0 3rem #ffffff08, 0 0 0 6rem #ffffff08; pointer-events: none; }
+        .hero-badges, .hero h1, .hero p { position: relative; z-index: 1; }
+        .hero-badge, .hero-badge.gold { color: #fff4e4; background: #ffffff16; border-color: #ffffff55; border-radius: 30px; }
+        .hero h1 { max-width: 820px; font: 400 clamp(2.4rem, 4.8vw, 4.4rem)/1.05 Georgia, serif; letter-spacing: -.045em; margin: 1.6rem 0; }
+        .hero p { color: #ffede5; max-width: 760px; line-height: 1.75; }
+        section { margin-bottom: 5rem; }
+        .section-header { margin-bottom: 2rem; border-color: #c8c1b4; }
+        .section-title { font: 400 clamp(1.8rem, 3vw, 2.6rem)/1.15 Georgia, serif; color: #262b25; letter-spacing: -.035em; }
+        .section-number { color: #9a3027; font: 600 .8rem var(--font-mono); vertical-align: middle; margin-right: 1rem; }
+        .portal-grid { gap: .9rem; }
+        .portal-card, .course-card, .roadmap-step, .table-container { border-radius: 4px; box-shadow: 0 5px 18px #302d2410; }
+        .portal-card { padding: 1.5rem; border-top: 3px solid #a34736; }
+        .portal-card p { color: var(--text-secondary); font-size: .9rem; margin: .5rem 0 .75rem; }
+        .portal-card:hover { border-color: #a34736; }
+        .portal-card .portal-type { color: #8c4a36; }
+        .callout { background: #f5ebd9; border-color: #e5d3b3; border-left-color: #a66e2d; color: #51483c; }
+        .callout strong { color: #764916; }
+        code { background: #eae4d9; color: #59453c; }
+        .course-card { padding: clamp(1.25rem, 3vw, 2.4rem); margin-bottom: 1.3rem; }
+        .course-card.featured { background: #fffbf2; border-color: #dbc7a1; }
+        .course-card.elite { background: #fbfdf8; border-color: #c9dccb; }
+        .course-code { color: #8b2c28; border-radius: 3px; }
+        .course-title, .step-body h3, .assignment-item strong, td strong { color: #272c26; }
+        .course-title { font: 400 clamp(1.5rem, 2.5vw, 2rem)/1.2 Georgia, serif; letter-spacing: -.025em; }
+        .course-code.gold { color: #80551e; }
+        .course-code.emerald { color: #24634f; }
+        .btn-link { color: #742d26; background: #faf7f1; border-color: #e3d6c8; border-radius: 3px; }
+        .btn-link:hover { color: #fff; }
+        .syllabus-grid { background: #f7f4ee; border-color: #ebe5db; }
+        .syllabus-item h4 { color: #825a29; }
+        .assignment-item { background: #f8f5ef; }
+        .table-container { background: #fffefa; }
+        th { background: #eae6de; color: #353a32; }
+        .roadmap-step { background: #fffefa; }
+        @media (max-width: 980px) {
+            .layout-wrapper { grid-template-columns: minmax(0, 1fr); }
+            .sidebar { padding: 1.25rem 1.5rem; }
+            .brand { margin-bottom: .75rem; padding-bottom: .75rem; }
+            .nav-list { max-height: 12rem; overflow-y: auto; padding-bottom: .5rem; }
+            .nav-item { margin-bottom: .15rem; }
+            .nav-sublist { margin-left: .7rem; }
+            .sidebar-footer { display: none; }
+            .main-content { padding: 1.5rem 1.25rem 4rem; }
+            .hero { margin-bottom: 3rem; }
+        }
+        @media (max-width: 480px) {
+            .portal-grid, .syllabus-grid { grid-template-columns: minmax(0, 1fr); }
+            .hero { border-bottom-right-radius: 38px; }
+            .hero h1 { font-size: 2.3rem; }
+            .btn-link { width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: 0.01ms !important; }
+        }
+        .roadmap-intro { color: var(--text-secondary); max-width: 70ch; margin-bottom: 1.5rem; }
+        /* Universal AI navigation */
+        .brand-dot { color: #dcad6a; }
+        .brand-description { color: #c1cdc1; font-size: .8rem; margin-top: .55rem; line-height: 1.5; }
+        .nav-caption { display: block; color: #aabaaa; font: 600 .67rem var(--font-mono); letter-spacing: .12em; margin: 1.8rem .7rem .7rem; }
+        .nav-list > .nav-item > .nav-link { display: flex; gap: .85rem; align-items: baseline; color: #e0bc82; font: .72rem var(--font-mono); padding: .65rem .7rem; }
+        .nav-list > .nav-item > .nav-link span { color: #f1f3eb; font: 500 .9rem var(--font-sans); }
+        .nav-list > .nav-item > .nav-link:hover { background: #3a463d; }
+        .course-nav { margin: 0 0 .35rem 2rem; }
+        .course-nav summary { cursor: pointer; list-style: none; color: #b7c7b8; font-size: .76rem; padding: .35rem .45rem; border-radius: 4px; }
+        .course-nav summary::-webkit-details-marker { display: none; }
+        .course-nav summary span { float: right; font-size: 1rem; line-height: 1; }
+        .course-nav[open] summary span { transform: rotate(45deg); }
+        .course-nav summary:hover { background: #3a463d; color: white; }
+        .course-nav summary:focus-visible { outline: 3px solid #e0bc82; outline-offset: 2px; }
+        .nav-sublist { margin: .4rem 0 .7rem .4rem; }
+        @media (max-width: 980px) {
+            .sidebar { padding: 1.4rem 1.25rem; }
+            .brand { margin: 0; padding: 0; border: 0 !important; }
+            .nav-caption { margin: 1.2rem 0 .6rem; }
+            .nav-list { max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem; }
+            .nav-list > .nav-item > .nav-link { min-height: 2.8rem; padding: .6rem .5rem; gap: .5rem; }
+            .nav-list > .nav-item > .nav-link span { font-size: .82rem; }
+            .course-nav { margin-left: 1.2rem; }
+        }
+        @media (max-width: 360px) { .nav-list { grid-template-columns: 1fr; } }
+        .skip-link { position: fixed; z-index: 20; top: .75rem; left: .75rem; padding: .7rem 1rem; background: #fff; color: #222; transform: translateY(-180%); }
+        .skip-link:focus { transform: translateY(0); }
+        .hero-action { position: relative; z-index: 1; display: inline-block; margin-top: 1.8rem; padding: .8rem 1.1rem; border: 1px solid #f9e5d3; border-radius: 3px; color: #fff8ed; font-weight: 600; }
+        .hero-action:hover { background: #fff8ed; color: #71241f; border-color: #fff8ed; }
+        .layout-wrapper { grid-template-columns: 305px minmax(0, 1fr); }
+        .brand-tag { letter-spacing: .09em; }
+        .course-nav { margin-left: .65rem; }
+        .course-nav summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; }
+        .course-nav summary span { display: inline-block; transform: none; font-size: .9rem; }
+        .course-nav[open] summary span { transform: rotate(180deg); }
+        .nav-group-label { margin: .8rem .45rem .2rem; color: #eee4cf; font-size: .8rem; font-weight: 600; }
+        .nav-sublist { padding-left: .6rem; }
+        .nav-sublist .nav-link { padding: .5rem .6rem; line-height: 1.4; }
+        .nav-list a[aria-current="location"] { background: #3a463d; box-shadow: inset 3px 0 #e1bf80; }
+        .nav-caption { margin-top: 1.35rem; }
+        .nav-list > .nav-item > .nav-link { padding: .58rem .7rem; }
+        .directory-subtitle { font: 400 1.5rem/1.25 Georgia, serif; color: #262b25; margin: 2rem 0 .6rem; }
+        .directory-note { color: var(--text-secondary); max-width: 72ch; margin: 0 0 1.25rem; }
+        .legacy-anchor { display: block; position: relative; top: -2rem; }
+        .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; position: relative; z-index: 1; margin-top: 1.8rem; }
+        .hero-actions .hero-action { margin: 0; }
+        .hero-secondary { color: #fff6ea; font-weight: 600; padding: .65rem .15rem; border-bottom-color: #f9e5d3a8; }
+        .hero-secondary:hover { color: #fff; border-bottom-color: #fff; }
+        header.hero { margin-bottom: 0; }
+        .track-start { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 1.8rem; align-items: center; padding: clamp(1.4rem, 3vw, 2.3rem); margin: 2rem 0 3.25rem; background: #e8eee5; border: 1px solid #cedacb; border-radius: 8px; }
+        .track-start-eyebrow { display: block; color: #46634e; font: 700 .68rem var(--font-mono); letter-spacing: .12em; margin-bottom: .7rem; }
+        .track-start h2, .track-directory-bar h3 { color: #28382c; font: 400 clamp(1.6rem, 2.7vw, 2.2rem)/1.1 Georgia, serif; letter-spacing: -.025em; }
+        .track-start-heading p { color: #526054; font-size: .9rem; margin-top: .75rem; }
+        .track-start-options { display: grid; gap: .5rem; }
+        .track-start-options a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .12rem .8rem; align-items: center; min-height: 64px; padding: .7rem 1rem; background: #fffefa; border: 1px solid #d4ddd2; border-radius: 5px; color: #293d2e; }
+        .track-start-options a strong { font-size: .9rem; }
+        .track-start-options a span:not([aria-hidden]) { grid-column: 1; color: #5b685c; font-size: .79rem; }
+        .track-start-options a span[aria-hidden] { grid-column: 2; grid-row: 1 / span 2; color: #8c3029; font-size: 1.1rem; }
+        .track-start-options a:hover { border-color: #7a9a80; background: #f9fcf7; }
+        .track-directory-bar { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
+        .track-directory-bar h3 { font-size: 1.8rem; }
+        .track-directory-bar > a { font-size: .85rem; font-weight: 600; }
+        .tracks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1rem; align-items: stretch; }
+        .track-card { display: flex; flex-direction: column; background: #fffefa; border: 1px solid var(--border-subtle); border-radius: 8px; padding: clamp(1.3rem, 2.5vw, 1.8rem); box-shadow: 0 7px 24px #302d240d; scroll-margin-top: 1.5rem; }
+        .track-card:target { border-color: #9b5b42; box-shadow: 0 0 0 3px #a75a3025; }
+        .track-label { display: inline-flex; align-self: flex-start; color: #774d28; background: #f5ebdd; border-radius: 20px; padding: .3rem .65rem; font: 700 .65rem var(--font-mono); letter-spacing: .07em; margin-bottom: 1rem; }
+        .track-card h3 { color: #262b25; font: 400 1.6rem/1.17 Georgia, serif; letter-spacing: -.02em; margin-bottom: .6rem; }
+        .track-card p { color: var(--text-secondary); font-size: .9rem; margin-bottom: 1.3rem; }
+        .track-card ul { list-style: none; display: grid; gap: .1rem; padding: 0; margin-top: auto; }
+        .track-card li { position: relative; padding: .9rem 0 .9rem 1rem; border-top: 1px solid #e9e5dc; color: #536056; font-size: .88rem; line-height: 1.6; }
+        .track-card li::before { content: ''; position: absolute; left: 0; top: 1.5rem; width: .36rem; height: .36rem; border-radius: 50%; background: #a55742; }
+        .track-card li strong { display: block; color: #425746; font: 700 .66rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; margin-bottom: .32rem; }
+        .track-card a { color: #812823; }
+        @media (max-width: 680px) { .track-start { grid-template-columns: 1fr; gap: 1.25rem; } .track-directory-bar { align-items: start; flex-direction: column; } }
+        .mobile-menu-input, .mobile-menu-label { display: none; }
+        @media (max-width: 980px) {
+            .layout-wrapper { grid-template-columns: minmax(0, 1fr); }
+            .sidebar { display: block; padding: 1.1rem 1.25rem; }
+            .sidebar > div:first-child { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .5rem 1rem; }
+            .brand-tag, .brand-description { display: none; }
+            .brand .brand-title { font-size: 1.25rem; }
+            .mobile-menu-input { position: absolute; width: 1px; height: 1px; opacity: 0; display: block; }
+            .mobile-menu-label { display: flex; align-items: center; justify-content: space-between; gap: .8rem; min-height: 44px; margin: 0; padding: .6rem .8rem; border: 1px solid #68796b; border-radius: 4px; color: #fffdf6; cursor: pointer; }
+            .mobile-menu-label::after { content: '+'; font-size: 1.2rem; }
+            .mobile-menu-input:checked + .mobile-menu-label::after { content: '−'; }
+            .mobile-menu-input:focus-visible + .mobile-menu-label { outline: 3px solid #e0bc82; outline-offset: 3px; }
+            .mobile-menu-input:not(:checked) ~ nav { display: none; }
+            #guia-nav { grid-column: 1 / -1; }
+            .nav-list { display: block; }
+            .nav-list > .nav-item > .nav-link { min-height: 44px; align-items: center; }
+            .course-nav { margin-left: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<div class="layout-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <span class="brand-tag">Guia independente de estudos</span>
+                <div class="brand-title">Universal AI<span class="brand-dot">.</span></div>
+                <p class="brand-description">Cursos, leituras e prática para estudar IA.</p>
+            </div>
+            <input class="mobile-menu-input" id="mobile-menu" type="checkbox" aria-controls="guia-nav">
+            <label class="mobile-menu-label" for="mobile-menu">Explorar o guia</label>
+            <nav aria-label="Navegação do guia" id="guia-nav">
+                <span class="nav-caption">COMEÇAR</span>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#visao-geral" class="nav-link"><span>Como usar o guia</span></a></li>
+                    <li class="nav-item"><a href="#trilhas" class="nav-link"><span>Trilhas por tema</span></a></li>
+                    <li class="nav-item"><a href="#roteiro" class="nav-link"><span>Roteiro de estudos</span></a></li>
+                </ul>
+                <span class="nav-caption">EXPLORAR INSTITUIÇÕES</span>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#disciplinas" class="nav-link"><span>Stanford</span></a>
+                    <details class="course-nav"><summary>Índice de Stanford <span aria-hidden="true">⌄</span></summary>
+                    <p class="nav-group-label">Disciplinas centrais</p>
+                    <ul class="nav-sublist">
+                        <li><a href="#cs221" class="nav-link">CS221 · AI Principles</a></li>
+                        <li><a href="#cs229" class="nav-link">CS229 · Machine Learning</a></li>
+                        <li><a href="#cs231n" class="nav-link">CS231N · Vision &amp; Backprop</a></li>
+                        <li><a href="#cs224n" class="nav-link">CS224N · NLP &amp; Transformers</a></li>
+                        <li><a href="#cs336" class="nav-link">CS336 · LLMs from Scratch</a></li>
+                    </ul>
+                    <p class="nav-group-label">Outros cursos e seminários</p>
+                    <ul class="nav-sublist">
+                        <li><a href="#seminario-cs224u" class="nav-link">CS224U · Natural Language Understanding</a></li>
+                        <li><a href="#seminario-cs230" class="nav-link">CS230 · Deep Learning</a></li>
+                        <li><a href="#seminario-cs234" class="nav-link">CS234 · Reinforcement Learning</a></li>
+                        <li><a href="#seminario-cs224w" class="nav-link">CS224W · Machine Learning with Graphs</a></li>
+                        <li><a href="#seminario-cs236" class="nav-link">CS236 · Deep Generative Models</a></li>
+                        <li><a href="#seminario-cs25" class="nav-link">CS25 · Transformers United</a></li>
+                    </ul>
+                    </details>
+                    </li>
+                    <li class="nav-item"><a href="#harvard" class="nav-link"><span>Harvard</span></a></li>
+                    <li class="nav-item"><a href="#mit" class="nav-link"><span>MIT</span></a></li>
+                    <li class="nav-item"><a href="#cmu" class="nav-link"><span>Carnegie Mellon</span></a></li>
+                    <li class="nav-item"><a href="#berkeley" class="nav-link"><span>UC Berkeley</span></a></li>
+                    <li class="nav-item"><a href="#princeton" class="nav-link"><span>Princeton</span></a></li>
+                    <li class="nav-item"><a href="#oxford" class="nav-link"><span>Oxford</span></a></li>
+                    <li class="nav-item"><a href="#outras-fontes" class="nav-link"><span>Outras fontes</span></a></li>
+                    <li class="nav-item"><a href="#cursos-mundo" class="nav-link"><span>Cursos pelo mundo</span></a></li>
+                </ul>
+                <span class="nav-caption">APROFUNDAR</span>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#livros" class="nav-link"><span>Livros e leituras</span></a></li>
+                    <li class="nav-item"><a href="#complementares" class="nav-link"><span>Cursos e seminários</span></a></li>
+                    <li class="nav-item"><a href="#validacao" class="nav-link"><span>Prática e portfólio</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="sidebar-footer">
+            Seleção independente de materiais universitários.<br>
+            Links externos abrem em nova aba.
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="conteudo" tabindex="-1">
+        <header class="hero">
+            <div class="hero-badges">
+                <span class="hero-badge">Universal AI · guia de estudos</span>
+                <span class="hero-badge gold">Stanford · Harvard · MIT e outras</span>
+            </div>
+            <h1>Um caminho para aprender inteligência artificial.</h1>
+        </header>
+        <section class="track-start" aria-labelledby="track-start-title">
+            <div class="track-start-heading">
+                <h2 id="track-start-title">Por onde você quer começar?</h2>
+                <p>Prefere seguir uma sequência? <a href="#roteiro">Ver roteiro em seis fases</a>.</p>
+            </div>
+            <div class="track-start-options">
+                <a href="#trilha-fundamentos"><strong>Aprender os fundamentos</strong><span>Comece aqui mesmo sem experiência em programação.</span><span aria-hidden="true">↓</span></a>
+                <a href="#trilha-ml"><strong>Treinar meu primeiro modelo</strong><span>Para quem já escreve pequenos programas em Python.</span><span aria-hidden="true">↓</span></a>
+                <a href="#trilha-linguagem"><strong>Estudar modelos de linguagem</strong><span>Para as atividades práticas, ajuda conhecer Python e aprendizado de máquina.</span><span aria-hidden="true">↓</span></a>
+            </div>
+        </section>
+
+        <!-- Section 1 -->
+        <section id="visao-geral">
+            <div class="section-header">
+                <h2 class="section-title">Como usar o guia</h2>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 1.25rem;">
+                Este guia é uma seleção independente, sem vínculo institucional com as universidades citadas, para quem quer estudar IA e construir projetos. Conhecimentos de programação, álgebra linear, cálculo e probabilidade ajudam no percurso. Comece pelo <a href="#roteiro">roteiro de estudos</a> ou escolha uma disciplina pelo tema. Acesso, custos e certificados variam conforme o curso e a edição. Estudar por conta própria não concede automaticamente créditos acadêmicos ou diploma.
+            </p>
+
+        </section>
+
+        <!-- Section 7 -->
+        <section id="trilhas">
+            <div class="section-header"><h2 class="section-title">Trilhas por tema</h2></div>
+            <p class="directory-note">Encontre materiais de diferentes instituições ligados pelo mesmo assunto. Os agrupamentos são sugestões flexíveis: opções na mesma linha podem ter profundidades diferentes e não precisam ser feitas em sequência. Para cursos mais teóricos, uma base de programação, álgebra linear, cálculo e probabilidade pode ser importante; confira os pré-requisitos de cada oferta.</p>
+            <div class="track-directory-bar"><div><span class="track-start-eyebrow">ESCOLHA PELO TEMA</span><h3>Explore as trilhas</h3></div><a href="#roteiro">Prefere uma sequência? Ver roteiro <span aria-hidden="true">↗</span></a></div>
+            <div class="tracks-grid">
+                <article id="trilha-fundamentos" class="track-card"><span class="track-label">FUNDAMENTOS</span><h3>Programação e fundamentos de IA</h3><p>Construa a base em Python e avance para conceitos e algoritmos de IA.</p><ul><li><strong>Python:</strong> <a href="#harvard-python">Harvard · CS50 Python</a>, <a href="#helsinki-python">Helsinki · Python MOOC</a> ou <a href="#enap-python">Enap · Python em português</a></li><li><strong>IA em Python:</strong> <a href="#harvard-ai">Harvard · CS50 AI</a></li><li><strong>Fundamentos adicionais:</strong> <a href="#cs221">Stanford · CS221</a>; confira a base matemática e de programação esperada pelo curso.</li></ul></article>
+                <article id="trilha-ml" class="track-card"><span class="track-label">MODELAGEM</span><h3>Machine learning e dados</h3><p>Estude modelos, avaliação e fundamentos matemáticos; escolha o aprofundamento que fizer sentido.</p><ul><li><strong>Introdução prática:</strong> <a href="#google-ml">Google · ML Crash Course</a>, <a href="#harvard-ml">Harvard · ML com Python</a>, <a href="#inria-ml">Inria · scikit-learn</a> ou <a href="#enap-ml">Enap · modelos preditivos</a></li><li><strong>Em espanhol:</strong> <a href="#udea-ia">Universidad de Antioquia · IA aplicada</a></li><li><strong>Outras abordagens:</strong> <a href="#cs229">Stanford · CS229</a>, <a href="#princeton-cos324">Princeton · notas COS 324</a>, <a href="#epfl-ml">EPFL · CS-433</a> e <a href="#lmu-ml">LMU · I2ML</a></li></ul></article>
+                <article id="trilha-visao" class="track-card"><span class="track-label">VISÃO E GERAÇÃO</span><h3>Deep learning e visão computacional</h3><p>Conecte prática de redes neurais, visão e modelos generativos.</p><ul><li>Comece por <a href="#seminario-cs230">Stanford · CS230</a> se quer treinar redes neurais e estruturar um projeto. Para aplicar essa base a imagens, siga para CS231n.</li><li><strong>Prática:</strong> <a href="#fastai">fast.ai · Practical Deep Learning</a> ou <a href="#uva-dl">Amsterdã · tutoriais de deep learning</a></li><li><strong>Visão:</strong> <a href="#cs231n">Stanford · CS231n</a></li><li><strong>Modelos generativos:</strong> <a href="#seminario-cs236">Stanford · CS236</a>; confira a base matemática recomendada.</li></ul></article>
+                <article id="trilha-linguagem" class="track-card"><span class="track-label">LINGUAGEM</span><h3>NLP e modelos de linguagem</h3><p>Explore representação de texto, Transformers e construção de modelos.</p><ul><li><strong>Em português:</strong> <a href="#enap-pln">Enap · introdução ao PLN</a> e <a href="#usp-pln">USP · NLPortuguês</a></li><li><strong>NLP avançado:</strong> <a href="#cs224n">Stanford · CS224n</a> e <a href="#cmu-11711">Carnegie Mellon · Advanced NLP</a></li><li>Escolha <a href="#seminario-cs224u">Stanford · CS224U</a> se quer investigar o que um modelo compreende e avaliar suas respostas em tarefas de linguagem.</li><li><strong>Construção de modelos:</strong> <a href="#cs336">Stanford · CS336</a></li><li><strong>Complementos:</strong> <a href="#seminario-cs25">Stanford · seminário CS25</a> e <a href="#cal-cs294">Berkeley · LLM Agents</a></li></ul></article>
+                <article id="trilha-agentes" class="track-card"><span class="track-label">DECISÃO E AUTONOMIA</span><h3>Agentes e aprendizado por reforço</h3><p>Relacione fundamentos de decisão com RL; agentes de linguagem são uma conexão complementar, não uma etapa obrigatória de RL.</p><ul><li><strong>Fundamentos:</strong> <a href="#cs221">Stanford · CS221</a></li><li><strong>RL:</strong> <a href="#seminario-cs234">Stanford · CS234</a> e <a href="#cal-cs285">Berkeley · CS285</a></li><li><strong>Agentes de linguagem:</strong> <a href="#cal-cs294">Berkeley · LLM Agents</a></li></ul></article>
+                <article id="trilha-sistemas" class="track-card"><span class="track-label">ENGENHARIA</span><h3>Sistemas, eficiência e produção</h3><p>Explore percursos relacionados, mas independentes, de implementação, eficiência e qualidade de dados.</p><ul><li><strong>Sistemas de deep learning:</strong> <a href="#cmu-10714">Carnegie Mellon · Deep Learning Systems</a></li><li><strong>Eficiência e dispositivos:</strong> <a href="#harvard-tinyml">Harvard · TinyML</a> e <a href="#mit-65940">MIT · Efficient AI Computing</a>, com escopos e níveis diferentes</li><li><strong>Dados e produção:</strong> <a href="#mit-dcai">MIT Data-Centric AI e recursos complementares</a></li><li><strong>Bancos de dados:</strong> <a href="#cmu-15445">Carnegie Mellon · sistemas de bancos de dados</a></li></ul></article>
+            </div>
+            <p class="directory-note" style="margin-top: 1.25rem;">Outras conexões: <a href="#seminario-cs224w">Stanford CS224W</a> explora aprendizado em grafos; <a href="#helsinki-etica">Helsinki · Ethics of AI</a> e <a href="#oxford-unesco">Oxford e UNESCO · IA e justiça</a> tratam de impactos e responsabilidade; a <a href="#validacao">seção de prática e portfólio</a> reúne ideias para aplicar o que você estudou.</p>
+        </section>
+
+        <section id="roteiro">
+            <div class="section-header">
+                <h2 class="section-title">Roteiro de estudos em seis fases</h2>
+            </div>
+            <p class="roadmap-intro">Este percurso sugere uma ordem de estudo dos fundamentos à engenharia de modelos. Os prazos são exemplos, sem carga semanal definida; adapte as fases à sua experiência, disponibilidade e objetivos.</p>
+            <div class="roadmap">
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 01</span>
+                        <div class="step-duration">2 a 3 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>Grafo Computacional e Cálculo Matricial</h3>
+                        <ul>
+                            <li>Ler os módulos de <em>Linear Classification</em>, <em>Optimization</em> e <em>Backpropagation</em> em <a href="https://cs231n.github.io/" target="_blank" rel="noopener noreferrer">cs231n.github.io</a>.</li>
+                            <li>Praticar os <strong>Assignments 1 e 2</strong> do CS231n: algumas partes trabalham derivadas e implementação manual; o Assignment 2 de 2024 também inclui PyTorch.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 02</span>
+                        <div class="step-duration">3 a 4 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>Teoria Matemática de Machine Learning</h3>
+                        <ul>
+                            <li>Estudar as partes I (aprendizado supervisionado), II (deep learning) e IV (aprendizado não supervisionado) das <a href="https://cs229.stanford.edu/main_notes.pdf" target="_blank" rel="noopener noreferrer">CS229 Lecture Notes</a>, edição de 2026.</li>
+                            <li>Consultar os capítulos de MDPs e Busca do <a href="https://cs221.stanford.edu/" target="_blank" rel="noopener noreferrer">CS221</a> e do livro <a href="https://algorithmsbook.com/" target="_blank" rel="noopener noreferrer">Algorithms for Decision Making</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 03</span>
+                        <div class="step-duration">4 a 5 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>NLP, atenção e pós-treinamento</h3>
+                        <ul>
+                            <li>Acompanhar as aulas do <a href="https://cs224n.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford CS224N</a> e <a href="https://cmu-l3.github.io/anlp-spring2026/" target="_blank" rel="noopener noreferrer">CMU CS11-711</a> em conjunto com o livro <a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener noreferrer">SLP3 de Dan Jurafsky</a>.</li>
+                            <li>Implementar os projetos práticos de Self-Attention, Pré-treinamento e Fine-Tuning (LoRA/SFT).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 04</span>
+                        <div class="step-duration">6 a 8 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>Engenharia de modelos de linguagem</h3>
+                        <ul>
+                            <li>Mergulhar no <a href="https://cs336.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford CS336</a> e no <a href="https://github.com/stanford-cs336" target="_blank" rel="noopener noreferrer">repositório oficial no GitHub</a>.</li>
+                            <li>Explorar os cinco projetos: tokenização e Transformer, sistemas e paralelismo, leis de escala, dados e alinhamento. Na edição de 2026, DPO aparece na parte opcional do último projeto; alguns experimentos exigem GPU.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 05</span>
+                        <div class="step-duration">5 a 6 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>Sistemas de Deep Learning, Hardware e Inferência Local</h3>
+                        <ul>
+                            <li>Explorar a implementação da biblioteca <code>Needle</code> no <a href="https://dlsyscourse.org/" target="_blank" rel="noopener noreferrer">CMU 10-714</a>; consulte as condições de acesso ao autograder <code>mugrade</code>.</li>
+                            <li>Explorar os laboratórios do <a href="https://efficientml.ai/" target="_blank" rel="noopener noreferrer">MIT 6.5940 (EfficientML)</a>. A edição de 2026 lista GPU, poda, busca de arquiteturas, quantização e execução de LLM em laptop; confira o acesso a cada atividade.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-step">
+                    <div class="step-meta">
+                        <span class="step-phase">Fase 06</span>
+                        <div class="step-duration">4 a 6 semanas</div>
+                    </div>
+                    <div class="step-body">
+                        <h3>Arquitetura de Agentes, RL e Sistemas em Produção</h3>
+                        <ul>
+                            <li>Explorar os laboratórios da trilha <a href="https://llmagents-learning.org/sp25" target="_blank" rel="noopener noreferrer">UC Berkeley CS294-196 (LLM Agents)</a> e conferir as condições atuais de participação e certificação.</li>
+                            <li>Consolidar arquitetura de produção e qualidade de dados com <a href="https://madewithml.com/" target="_blank" rel="noopener noreferrer">Made With ML</a>, <a href="https://cs329s.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford CS329S</a> e <a href="https://dcai.csail.mit.edu/" target="_blank" rel="noopener noreferrer">MIT Data-Centric AI</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="disciplinas">
+            <div class="section-header">
+                <h2 class="section-title">Cursos de Stanford: fundamentos e modelos</h2>
+            </div>
+            <h3 class="directory-subtitle">Portais e programas de Stanford</h3>
+            <p class="directory-note">Conheça os portais de materiais e programas; consulte as condições na página de cada oferta.</p>
+            <div class="portal-grid">
+                <div class="portal-card">
+                    <div class="portal-type">Vídeo Aulas Abertas</div>
+                    <h3>Hub de Aulas Gravadas</h3>
+                    <a href="https://online.stanford.edu/ai-graduate-course-lectures" target="_blank" rel="noopener noreferrer">online.stanford.edu/ai-graduate-course-lectures ↗</a>
+                </div>
+                <div class="portal-card">
+                    <div class="portal-type">YouTube Oficial</div>
+                    <h3>Canal Stanford Online</h3>
+                    <a href="https://www.youtube.com/@stanfordonline/playlists" target="_blank" rel="noopener noreferrer">youtube.com/@stanfordonline/playlists ↗</a>
+                </div>
+                <div class="portal-card">
+                    <div class="portal-type">Pós-Graduação Oficial</div>
+                    <h3>AI Graduate Certificate</h3>
+                    <a href="https://online.stanford.edu/programs/artificial-intelligence-graduate-certificate" target="_blank" rel="noopener noreferrer">Artificial Intelligence Graduate Certificate ↗</a>
+                </div>
+                <div class="portal-card">
+                    <div class="portal-type">Formação Executiva/Técnica</div>
+                    <h3>AI Professional Program</h3>
+                    <a href="https://online.stanford.edu/programs/artificial-intelligence-professional-program" target="_blank" rel="noopener noreferrer">Stanford AI Professional Program ↗</a>
+                </div>
+                <div class="portal-card">
+                    <div class="portal-type">Catálogo Completo</div>
+                    <h3>Stanford AI Courses</h3>
+                    <a href="https://online.stanford.edu/artificial-intelligence/courses-and-programs" target="_blank" rel="noopener noreferrer">AI Courses &amp; Programs Catalog ↗</a>
+                </div>
+            </div>
+            <h3 class="directory-subtitle">Cursos para explorar</h3>
+
+            <div class="callout">
+                <strong>Como acessar os projetos:</strong> alguns materiais podem exigir login ou mudar entre edições. Se um link estiver restrito, procure edições anteriores na página do curso e confira quais arquivos estão disponíveis.
+            </div>
+
+            <!-- CS221 -->
+            <article id="cs221" class="course-card">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code">STANFORD · MÓDULO 01 · CS221</span>
+                        <h3 class="course-title">Artificial Intelligence: Principles and Techniques</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> Fundamentos de IA clássica, algoritmos de busca, grafos, tomada de decisão sob incerteza e lógica.</p>
+                <div class="links-bar">
+                    <a href="https://cs221.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (cs221.stanford.edu)</a>
+                    <a href="https://www.youtube.com/watch?v=yaLEGZuIIgE" target="_blank" rel="noopener noreferrer" class="btn-link">▶️ Aula 1: Course Overview</a>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOca_Ovz1DvdtWuz8BfSWL2" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist Completa (YouTube)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Reflex &amp; State-Based Models</h4>
+                        <p>Busca em largura/profundidade, Custo Uniforme (Dijkstra), Busca Heurística (A*), Relaxação.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>MDPs &amp; Reinforcement Learning</h4>
+                        <p>Value Iteration, Policy Iteration, Q-Learning, SARSA, Exploration vs. Exploitation, Function Approximation.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Adversarial Games &amp; CSPs</h4>
+                        <p>Minimax, Alpha-Beta Pruning, Expectimax, Factor Graphs, Backtracking Search, Arc Consistency (AC-3).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Bayesian Networks &amp; Logic</h4>
+                        <p>Inferência probabilística, Forward-Backward, Particle Filtering, Lógica Proposicional e de Primeira Ordem.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CS229 -->
+            <article id="cs229" class="course-card">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code">STANFORD · MÓDULO 02 · CS229</span>
+                        <h3 class="course-title">Machine Learning</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> A base matemática e estatística rigorosa do Aprendizado de Máquina.</p>
+                <div class="links-bar">
+                    <a href="https://cs229.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (cs229.stanford.edu)</a>
+                    <a href="https://cs229.stanford.edu/main_notes.pdf" target="_blank" rel="noopener noreferrer" class="btn-link">📄 Notas oficiais do CS229 (PDF)</a>
+                    <a href="https://cs229.stanford.edu/materials.html" target="_blank" rel="noopener noreferrer" class="btn-link">📚 Handouts &amp; Materials</a>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist Completa (Andrew Ng)</a>
+                    <a href="https://github.com/afshinea/stanford-cs-229-machine-learning" target="_blank" rel="noopener noreferrer" class="btn-link">🗂️ VIP Cheat Sheets (GitHub)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Supervised Learning</h4>
+                        <p>Regressão Linear/Polinomial, SGD, Equação Normal, Regressão Logística, Método de Newton, GLMs e Família Exponencial.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Generative &amp; Kernels</h4>
+                        <p>GDA, Naive Bayes, Laplace Smoothing, SVMs, Condições KKT, Dualidade de Lagrange, Kernel Trick, Boosting/Bagging.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Unsupervised &amp; Deep Learning</h4>
+                        <p>Backpropagation matricial, K-Means, Mistura de Gaussianas (GMMs), Algoritmo EM, Jensen's Inequality, PCA e ICA.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Learning Theory &amp; Control</h4>
+                        <p>Bias-Variance Tradeoff, VC Dimension, Empirical Risk Minimization, LQR, LQG e Policy Gradient (REINFORCE).</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CS231N -->
+            <article id="cs231n" class="course-card">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code">STANFORD · MÓDULO 03 · CS231N</span>
+                        <h3 class="course-title">Deep Learning for Computer Vision</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> Construção de redes neurais no nível do grafo computacional, cálculo matricial de gradientes e arquiteturas visuais modernas.</p>
+                <div class="links-bar">
+                    <a href="https://cs231n.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (cs231n.stanford.edu)</a>
+                    <a href="https://cs231n.github.io/" target="_blank" rel="noopener noreferrer" class="btn-link">📖 Notas Escritas (cs231n.github.io)</a>
+                    <a href="https://cs231n.github.io/assignments2024/assignment1/" target="_blank" rel="noopener noreferrer" class="btn-link">💻 Assignment 1 (edição 2024)</a>
+                    <a href="https://cs231n.stanford.edu/assignments.html" target="_blank" rel="noopener noreferrer" class="btn-link">📋 Visão geral dos assignments (2026)</a>
+                    <a href="https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist no YouTube</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Grafo &amp; Backpropagation</h4>
+                        <p>Classificadores Lineares (SVM/Softmax), SGD, Momentum, Nesterov, AdaGrad, RMSProp, AdamW e Backprop manual em tensores.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>CNNs &amp; Vision Transformers</h4>
+                        <p>ResNet, ConvNeXt, Batch/Layer/Group Norm, Vision Transformers (ViT, Swin), Self-Supervised Learning (MAE, DINO, CLIP).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Tarefas Densas &amp; Generativos</h4>
+                        <p>Faster R-CNN, YOLO, DETR, Mask R-CNN, SAM, VAEs, GANs, Modelos de Difusão (DDPM, Latent Diffusion), NeRFs e 3D Gaussian Splatting.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CS224N -->
+            <article id="cs224n" class="course-card">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code">STANFORD · MÓDULO 04 · CS224N</span>
+                        <h3 class="course-title">Natural Language Processing with Deep Learning</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> Processamento de Linguagem Natural, arquitetura Transformer em detalhes e ciclo de vida de Large Language Models (LLMs).</p>
+                <div class="links-bar">
+                    <a href="https://cs224n.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (cs224n.stanford.edu)</a>
+                    <a href="https://web.stanford.edu/class/cs224n/schedule.html" target="_blank" rel="noopener noreferrer" class="btn-link">📅 Cronograma, Slides e PDFs</a>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rMFqRtEuo6SGjY4XbRIVRd4" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist Completa (Christopher Manning)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Representações &amp; RNNs</h4>
+                        <p>Word2Vec (Skip-gram, CBOW, Negative Sampling), GloVe, RNNs, LSTMs, Vanishing/Exploding Gradients.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Arquitetura Transformer</h4>
+                        <p>Self-Attention, Multi-Head Attention, Positional Encodings (RoPE, ALiBi), Pre-LN vs. Post-LN, KV-Caching.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Pré e Pós-Treinamento</h4>
+                        <p>Encoder/Decoder, In-Context Learning, PEFT (LoRA, QLoRA, Prefix-Tuning), Instruction Tuning (SFT).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Alinhamento &amp; Agentes</h4>
+                        <p>RLHF (PPO), Direct Preference Optimization (DPO), RAG, Avaliação de LLMs e Modelos Multimodais.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CS336 -->
+            <article id="cs336" class="course-card featured">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code gold">STANFORD · MÓDULO 05 · CS336 · ENGENHARIA DE SISTEMAS DE LLMs</span>
+                        <h3 class="course-title">Language Modeling from Scratch</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> Construção completa de LLMs de ponta a ponta sem abstrações de alto nível — da tokenização e kernels de GPU ao treino distribuído e RLHF.</p>
+                <div class="links-bar">
+                    <a href="https://cs336.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (cs336.stanford.edu)</a>
+                    <a href="https://github.com/stanford-cs336" target="_blank" rel="noopener noreferrer" class="btn-link">💻 Repositório Oficial (GitHub)</a>
+                    <a href="https://qihongruan.github.io/cs336/" target="_blank" rel="noopener noreferrer" class="btn-link">📘 Compilado Matemático (511 págs)</a>
+                </div>
+                <ul class="assignments-list">
+                    <li class="assignment-item">
+                        <strong>Assignment 1 — Basics (Arquitetura &amp; Tokenização do Zero)</strong>
+                        Implementação do zero absoluto de um tokenizador BPE (Byte-Pair Encoding), arquitetura Transformer moderna (RMSNorm, SwiGLU, RoPE), função de perda Cross-Entropy, otimizador AdamW com <em>cosine learning rate schedule</em> e loop de treino completo.
+                    </li>
+                    <li class="assignment-item">
+                        <strong>Assignment 2 — Systems &amp; Efficiency (Kernels Triton &amp; Paralelismo)</strong>
+                        Profiling e benchmarks, implementação de <strong>FlashAttention-2 em Triton</strong> e treinamento distribuído com eficiência de memória (edição de 2026).
+                    </li>
+                    <li class="assignment-item">
+                        <strong>Assignment 3 — Scaling Laws</strong>
+                        Ajuste experimental de <em>Scaling Laws</em> (estilo Chinchilla — relação ótima entre parâmetros N e tokens D dado um orçamento fixo de FLOPs C).
+                    </li>
+                    <li class="assignment-item">
+                        <strong>Assignment 4 — Data Pipeline (Common Crawl)</strong>
+                        Processamento de dumps reais do <em>Common Crawl</em> (extração de texto de WARC, filtragem de qualidade com classificadores, identificação de idioma, deduplicação exata e <em>fuzzy</em> via MinHash + LSH e filtragem de toxicidade/PII).
+                    </li>
+                    <li class="assignment-item">
+                        <strong>Assignment 5 — Alignment &amp; Reasoning RL</strong>
+                        Aplicação de <em>supervised fine-tuning</em> e aprendizado por reforço para raciocínio matemático. A parte 2 é opcional e aborda métodos de alinhamento de segurança, como DPO (edição de 2026).
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="harvard">
+            <span id="outros-caminhos" class="legacy-anchor" aria-hidden="true"></span>
+            <div class="section-header"><h2 class="section-title">Harvard</h2></div>
+            <p class="directory-note">Cursos de Python, inteligência artificial, aprendizado de máquina e TinyML. As opções têm públicos e condições de acesso diferentes; confira os detalhes em cada oferta.</p>
+            <div class="portal-grid">
+                <article id="harvard-python" class="portal-card"><div class="portal-type">Harvard · Python · início</div><h3>CS50’s Introduction to Programming with Python</h3><p>Para desenvolver a base de programação antes de começar uma trilha técnica de IA. Aceita iniciantes e inclui exercícios.</p><p><a href="https://pll.harvard.edu/course/cs50s-introduction-programming-python" target="_blank" rel="noopener noreferrer">Ver curso em Harvard ↗</a></p></article>
+                <article id="harvard-ai" class="portal-card"><div class="portal-type">Harvard · IA · intermediário</div><h3>CS50’s Introduction to Artificial Intelligence with Python</h3><p>Busca, aprendizado de máquina e linguagem com projetos práticos. Recomenda CS50x ou ao menos um ano de Python. O material está disponível no OpenCourseWare; confira regras e prazos de certificação.</p><p><a href="https://cs50.harvard.edu/ai/" target="_blank" rel="noopener noreferrer">Acessar material do curso ↗</a> · <a href="https://pll.harvard.edu/course/cs50s-introduction-artificial-intelligence-python" target="_blank" rel="noopener noreferrer">Opção edX ↗</a></p></article>
+                <article id="harvard-ml" class="portal-card"><div class="portal-type">Harvard · ML · intermediário</div><h3>Machine Learning and AI with Python</h3><p>Uma opção concentrada em árvores de decisão, random forests e avaliação de modelos. Harvard lista auditoria gratuita e certificado verificado pago pela edX.</p><p><a href="https://pll.harvard.edu/course/machine-learning-and-ai-python" target="_blank" rel="noopener noreferrer">Ver condições em Harvard ↗</a></p></article>
+                <article id="harvard-tinyml" class="portal-card"><div class="portal-type">Harvard · TinyML · introdutório</div><h3>Fundamentals of TinyML</h3><p>Introdução a modelos de aprendizado de máquina para dispositivos embarcados. O catálogo informa acesso de auditoria e certificado verificado pago; confira as condições vigentes.</p><p><a href="https://pll.harvard.edu/course/fundamentals-tinyml" target="_blank" rel="noopener noreferrer">Ver curso e acesso ↗</a></p></article>
+            </div>
+        </section>
+
+        <section id="mit">
+            <div class="section-header"><h2 class="section-title">MIT e recursos de dados</h2></div>
+            <p class="directory-note">Explore o curso de computação eficiente do MIT e uma seleção sobre dados e produção que também inclui materiais de outras instituições.</p>
+            <article id="mit-65940" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">MIT · 6.5940 · INFERÊNCIA LOCAL &amp; QUANTIZAÇÃO</span>
+                        <h3 class="course-title">TinyML and Efficient AI Computing</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Criador:</strong> Prof. Song Han (MIT HAN Lab — criador do AWQ, SmoothQuant e StreamingLLM). <strong>Foco:</strong> Compressão extrema de LLMs, quantização, poda e aceleração de inferência em GPUs locais e Apple Silicon.</p>
+                <div class="links-bar">
+                    <a href="https://efficientml.ai/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site do curso (efficientml.ai)</a>
+                    <a href="https://hanlab.mit.edu/courses/2026-fall-65940" target="_blank" rel="noopener noreferrer" class="btn-link">📋 Programa e laboratórios (2026)</a>
+                    <a href="https://www.youtube.com/playlist?list=PL80kAHvQbh-pT4lCkDT53zT8DKmhE0idB" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist Completa (YouTube)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Model Compression</h4>
+                        <p>Pruning (estruturado e não estruturado), Knowledge Distillation, Neural Architecture Search (NAS).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Quantization (INT8 / INT4 / AWQ)</h4>
+                        <p>Post-Training Quantization (PTQ), Quantization-Aware Training (QAT), Activation-aware Weight Quantization (AWQ), SmoothQuant e FP4.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Efficient LLM Inference</h4>
+                        <p>PagedAttention, KV-Cache compression, StreamingLLM, Speculative Decoding e aceleração de Modelos de Difusão.</p>
+                    </div>
+                </div>
+            </article>
+            <article id="mit-dcai" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">MIT 6.S965 + FSDL + MADE WITH ML · ENGENHARIA DE PRODUÇÃO</span>
+                        <h3 class="course-title">Data-Centric AI, Full Stack Deep Learning &amp; MLOps</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Foco:</strong> Curadoria algorítmica de datasets, arquitetura de sistemas distribuídos de ML, CI/CD para modelos, observabilidade e deploy em larga escala.</p>
+                <div class="links-bar">
+                    <a href="https://dcai.csail.mit.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 MIT Data-Centric AI (IAP 2024)</a>
+                    <a href="https://fullstackdeeplearning.com/course/2022/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Full Stack Deep Learning (UC Berkeley)</a>
+                    <a href="https://madewithml.com/" target="_blank" rel="noopener noreferrer" class="btn-link">💻 Made With ML (Goku Mohandas)</a>
+                    <a href="https://cs329s.stanford.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">📐 Stanford CS329S (Chip Huyen)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Data-Centric Engineering (MIT)</h4>
+                        <p>Confident Learning (detecção matemática de ruído em rótulos), Coreset selection, Active Learning e curadoria de dados sintéticos.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Production MLOps &amp; LLMOps</h4>
+                        <p>Orquestração de pipelines, testes comportamentais de modelos, detecção de Data/Concept Drift, Shadow Deployments e otimização de custo/latência.</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- Section 3: Elite Expansion (MIT, CMU, UC Berkeley) -->
+        <section id="cmu">
+            <span id="pos-mundial" class="legacy-anchor" aria-hidden="true"></span>
+            <div class="section-header"><h2 class="section-title">Carnegie Mellon University</h2></div>
+            <p class="directory-note">Materiais para explorar sistemas de aprendizado profundo, bancos de dados e processamento de linguagem natural.</p>
+            <article id="cmu-10714" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">CARNEGIE MELLON · CMU 10-414/714 · FALL 2026</span>
+                        <h3 class="course-title">Deep Learning Systems: Algorithms and Implementation</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Docência em Fall 2026:</strong> Tianqi Chen e Tim Dettmers. <strong>Foco:</strong> construir a biblioteca <code>Needle</code> e estudar diferenciação automática, operações em GPU e sistemas de aprendizado profundo. O acesso ao autograder para pessoas externas não foi confirmado.</p>
+                <div class="links-bar">
+                    <a href="https://dlsyscourse.org/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site e atividades do curso (dlsyscourse.org)</a>
+                    <a href="https://www.youtube.com/playlist?list=PLp8Qv116d69M6Z2u9f1qE2W-5G_X6W2d6" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Aulas no YouTube</a>
+                    <a href="https://github.com/dlsyscourse" target="_blank" rel="noopener noreferrer" class="btn-link">💻 GitHub Repositories (Needle)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Automatic Differentiation</h4>
+                        <p>Grafo computacional dinâmico/estático, Forward &amp; Reverse-mode AD implementado do zero sem bibliotecas externas.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Hardware &amp; CUDA Acceleration</h4>
+                        <p>Hierarquia de memória, strided tensors, vectorization, escrita de kernels em C++ e CUDA para multiplicação matricial.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>End-to-End Framework</h4>
+                        <p>Implementação de CNNs, RNNs, Transformers e treinamento distribuído rodando sobre a sua própria biblioteca <code>Needle</code>.</p>
+                    </div>
+                </div>
+            </article>
+            <article id="cmu-15445" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">CARNEGIE MELLON · CMU 15-445 / 645 · C++ SYSTEMS</span>
+                        <h3 class="course-title">Database Systems (BusTub Storage Engine)</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Docência:</strong> Jignesh Patel na edição Fall 2026; Andy Pavlo lecionou edições anteriores. <strong>Foco:</strong> arquitetura interna de sistemas de bancos de dados e implementação prática.</p>
+                <div class="links-bar">
+                    <a href="https://15445.courses.cs.cmu.edu/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (15445.courses.cs.cmu.edu)</a>
+                    <a href="https://github.com/cmu-db/bustub" target="_blank" rel="noopener noreferrer" class="btn-link">💻 GitHub: BusTub Engine (C++)</a>
+                    <a href="https://15445.courses.cs.cmu.edu/fall2026/faq.html" target="_blank" rel="noopener noreferrer" class="btn-link">📋 Acesso para estudantes externos e regras (2026)</a>
+                    <a href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Aulas Fall 2025 (recomendadas para externos)</a>
+                    <a href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjbj8BMuIrRcacnQh20hmY9g" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist de edição anterior (Andy Pavlo)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Storage &amp; Buffer Pool</h4>
+                        <p>Gerência de páginas em disco/memória, políticas de substituição (LRU-K), I/O assíncrono e layout de tuplas.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Indexing &amp; Execution</h4>
+                        <p>Implementação concorrente de B+ Trees, Hash Tables extensíveis, Volcano vs. Vectorized Query Execution.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Concurrency &amp; Recovery</h4>
+                        <p>Two-Phase Locking (2PL), Isolation Levels, Multi-Version Concurrency Control (MVCC) e Write-Ahead Logging (ARIES).</p>
+                    </div>
+                </div>
+            </article>
+            <article id="cmu-11711" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">CARNEGIE MELLON · CMU CS11-711 · ENGENHARIA DE NLP</span>
+                        <h3 class="course-title">Advanced Natural Language Processing</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Docência:</strong> Sean Welleck na edição Spring 2026, baseada em edições anteriores, incluindo a de Graham Neubig. <strong>Foco:</strong> fundamentos, modelagem e aplicações avançadas de NLP e modelos de linguagem.</p>
+                <div class="links-bar">
+                    <a href="https://cmu-l3.github.io/anlp-spring2026/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Curso e atividades (Spring 2026)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Mini-Llama &amp; Decoding</h4>
+                        <p>Implementação de um Llama do zero no Assignment 1, Speculative Decoding, Constrained Decoding (gramáticas/JSON).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>MoE, RAG &amp; Multimodal</h4>
+                        <p>Roteamento em arquiteturas Mixture of Experts, Dense/Sparse Retrieval híbrido, rerankers e modelos de visão-linguagem.</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="berkeley">
+            <div class="section-header"><h2 class="section-title">UC Berkeley</h2></div>
+            <p class="directory-note">Cursos e materiais sobre agentes de linguagem e aprendizado por reforço. Confira as condições e a edição de cada oferta.</p>
+            <article id="cal-cs294" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">UC BERKELEY · CS294-196 · LLM AGENTS</span>
+                        <h3 class="course-title">Large Language Model Agents &amp; Agentic AI</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Organização:</strong> Profa. Dawn Song e colaboradores. O curso CS294/194-196 de 2024 e o MOOC avançado de 2025 são ofertas distintas; o MOOC de 2025 terminou, mas suas aulas continuam disponíveis. <strong>Foco:</strong> agentes de linguagem, ferramentas, avaliação e segurança.</p>
+                <div class="links-bar">
+                    <a href="https://llmagents-learning.org/sp25" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 MOOC Advanced LLM Agents (Spring 2025)</a>
+                    <a href="https://rdi.berkeley.edu/llm-agents/f24" target="_blank" rel="noopener noreferrer" class="btn-link">🎓 CS294/194-196 (Fall 2024)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Reasoning &amp; Planning</h4>
+                        <p>ReAct, Tree-of-Thoughts, MCTS com LLMs, Compound AI Systems (DSPy) e roteamento de modelos.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Memory, Tools &amp; Code Agents</h4>
+                        <p>Arquiteturas de memória de longo prazo, Knowledge Graphs, sandboxes de execução de código e benchmarks (SWE-bench / WebArena).</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Agentic Security &amp; Guardrails</h4>
+                        <p>Defesa contra Prompt Injection indireto, análise estática/dinâmica de tool-calls, verificação formal e alinhamento.</p>
+                    </div>
+                </div>
+            </article>
+            <article id="cal-cs285" class="course-card elite">
+                <div class="course-header">
+                    <div>
+                        <span class="course-code emerald">UC BERKELEY · CS285 · DEEP RL</span>
+                        <h3 class="course-title">Deep Reinforcement Learning</h3>
+                    </div>
+                </div>
+                <p class="course-focus"><strong>Criador:</strong> Prof. Sergey Levine. <strong>Foco:</strong> A fundação matemática e algorítmica completa do Aprendizado por Reforço Profundo (base teórica para RLHF, PPO, GRPO e controle ótimo).</p>
+                <div class="links-bar">
+                    <a href="https://rail.eecs.berkeley.edu/deeprlcourse/" target="_blank" rel="noopener noreferrer" class="btn-link">🌐 Site Oficial (rail.eecs.berkeley.edu)</a>
+                    <a href="https://github.com/berkeleydeeprlcourse/homework_fall2023" target="_blank" rel="noopener noreferrer" class="btn-link">💻 Exercícios no GitHub (edição 2023)</a>
+                    <a href="https://www.youtube.com/playlist?list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps" target="_blank" rel="noopener noreferrer" class="btn-link">📺 Playlist Completa (YouTube)</a>
+                </div>
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <h4>Policy Gradients &amp; Actor-Critic</h4>
+                        <p>Imitation Learning, REINFORCE, redução de variância, Generalized Advantage Estimation (GAE), TRPO, PPO e SAC.</p>
+                    </div>
+                    <div class="syllabus-item">
+                        <h4>Model-Based &amp; Offline RL</h4>
+                        <p>Aprendizado de dinâmica, planejamento com incerteza, Conservative Q-Learning (CQL), Decision Transformers e RL para LLMs.</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- Section 4 -->
+
+        <section id="princeton">
+            <div class="section-header"><h2 class="section-title">Princeton</h2></div>
+            <p class="directory-note">Notas de curso para aprofundar os fundamentos de aprendizado de máquina.</p>
+            <div class="portal-grid">
+                <article id="princeton-cos324" class="portal-card"><div class="portal-type">Princeton · referência · edição 2022</div><h3>COS 324 — Introduction to Machine Learning</h3><p>Notas de curso para estudar fundamentos de ML, deep learning e outros temas. Material da edição Fall 2022, atualizado em 2024; é uma leitura, não a oferta atual do curso.</p><p><a href="https://princeton-introml.github.io/" target="_blank" rel="noopener noreferrer">Ler as notas ↗</a></p></article>
+            </div>
+        </section>
+
+        <section id="oxford">
+            <div class="section-header"><h2 class="section-title">Oxford</h2></div>
+            <div class="portal-grid">
+                <article id="oxford-unesco" class="portal-card"><div class="portal-type">Oxford e UNESCO · Reino Unido · IA e justiça</div><h3>AI, Justice and the Rule of Law</h3><p>Curso gratuito e autoguiado sobre IA, direitos fundamentais e sistemas de justiça, destinado a profissionais do direito e áreas relacionadas. Não exige formação técnica; a UNESCO informa cerca de 12 horas e certificado digital de conclusão. Consulte idiomas e inscrição na página oficial.</p><p><a href="https://www.unesco.org/en/articles/unesco-and-university-oxford-launch-free-global-course-ai-and-rule-law" target="_blank" rel="noopener noreferrer">Ver curso da Oxford e UNESCO ↗</a></p></article>
+                <article id="oxford-estudantes" class="portal-card"><div class="portal-type">Oxford · Reino Unido · acesso institucional</div><h3>Free AI training at Oxford</h3><p>Catálogo de formação em IA generativa para estudantes de Oxford. As oportunidades de treinamento da universidade exigem acesso institucional; confira os requisitos de cada recurso antes de se inscrever.</p><p><a href="https://www.ox.ac.uk/students/life/it/genai-tools/free-ai-training#/" target="_blank" rel="noopener noreferrer">Consultar catálogo de Oxford ↗</a></p></article>
+            </div>
+        </section>
+
+        <section id="outras-fontes">
+            <div class="section-header"><h2 class="section-title">Outras fontes e instituições</h2></div>
+            <p class="directory-note">Explore materiais da University of Helsinki, Google, fast.ai e EPFL de acordo com sua experiência e seus interesses.</p>
+            <div class="portal-grid">
+                <article id="helsinki-python" class="portal-card"><div class="portal-type">University of Helsinki · Python · início</div><h3>Python Programming MOOC 2026</h3><p>Materiais e exercícios para aprender programação em Python. A oferta de 2026 está prevista até o fim do ano; exames e créditos seguem regras próprias.</p><p><a href="https://programming-26.mooc.fi/" target="_blank" rel="noopener noreferrer">Acessar o MOOC ↗</a> · <a href="https://programming-26.mooc.fi/faq/" target="_blank" rel="noopener noreferrer">Dúvidas e condições ↗</a></p></article>
+                <article id="google-ml" class="portal-card"><div class="portal-type">Google · ML · prático</div><h3>Machine Learning Crash Course</h3><p>Introdução prática com vídeos, visualizações e exercícios. Para as atividades, é útil ter base em Python e matemática; o site detalha os pré-requisitos.</p><p><a href="https://developers.google.com/machine-learning/crash-course/" target="_blank" rel="noopener noreferrer">Explorar módulos ↗</a> · <a href="https://developers.google.com/machine-learning/crash-course/prereqs-and-prework" target="_blank" rel="noopener noreferrer">Ver pré-requisitos ↗</a></p></article>
+                <article id="fastai" class="portal-card"><div class="portal-type">fast.ai · deep learning · prático</div><h3>Practical Deep Learning for Coders</h3><p>Curso prático para quem já programa, com aplicações de visão, linguagem e dados tabulares. A primeira parte apresentada é a edição de 2022.</p><p><a href="https://course.fast.ai/" target="_blank" rel="noopener noreferrer">Ver aulas e materiais ↗</a></p></article>
+                <article id="epfl-ml" class="portal-card"><div class="portal-type">EPFL · ML · avançado</div><h3>Machine Learning CS-433</h3><p>Notas, laboratórios e projetos de aprendizado de máquina no repositório da edição Fall 2026. A consulta aos materiais não implica matrícula na EPFL.</p><p><a href="https://github.com/epfml/ML_course" target="_blank" rel="noopener noreferrer">Ver repositório do curso ↗</a></p></article>
+            </div>
+        </section>
+
+        <section id="cursos-mundo">
+            <div class="section-header"><h2 class="section-title">Cursos pelo mundo</h2></div>
+            <p class="directory-note">Amplie sua formação com cursos e materiais gratuitos de outras instituições. Cada opção informa o foco e as condições conhecidas: estudar um material aberto não equivale a estar matriculado, e certificados podem seguir regras próprias.</p>
+
+            <h3>América Latina</h3>
+            <div class="portal-grid">
+                <article id="usp-pln" class="portal-card"><div class="portal-type">USP · português · linguagem</div><h3>NLPortuguês</h3><p>Curso de processamento de linguagem natural com Python e TensorFlow. Slides, códigos e listas estão disponíveis no site e no repositório da USP; confira as condições de avaliação e certificado no Coursera.</p><p><a href="https://nlportugues.ime.usp.br/" target="_blank" rel="noopener noreferrer">Explorar materiais da USP ↗</a></p></article>
+                <article id="enap-python" class="portal-card"><div class="portal-type">Enap · português · início</div><h3>Aprendendo com Python</h3><p>Introdução à programação em Python, com 20 horas. Curso gratuito e aberto a qualquer pessoa, com certificado; requer cadastro na Escola Virtual de Governo.</p><p><a href="https://www.escolavirtual.gov.br/curso/629" target="_blank" rel="noopener noreferrer">Ver curso na EV.G ↗</a></p></article>
+                <article id="enap-ml" class="portal-card"><div class="portal-type">Enap · português · machine learning</div><h3>Soluções preditivas com R e Python</h3><p>Tipos de aprendizado de máquina, escolha de técnicas e construção de soluções preditivas. São 25 horas; curso gratuito, aberto a qualquer pessoa, com certificado e cadastro na EV.G.</p><p><a href="https://www.escolavirtual.gov.br/curso/1049" target="_blank" rel="noopener noreferrer">Ver curso na EV.G ↗</a></p></article>
+                <article id="enap-pln" class="portal-card"><div class="portal-type">Enap · português · linguagem</div><h3>Introdução ao processamento de linguagem natural</h3><p>Preparação de dados e aplicações de PLN em Python e R. São 25 horas; curso gratuito e aberto a qualquer pessoa, com certificado e cadastro na EV.G.</p><p><a href="https://www.escolavirtual.gov.br/curso/1043" target="_blank" rel="noopener noreferrer">Ver curso na EV.G ↗</a></p></article>
+                <article id="udea-ia" class="portal-card"><div class="portal-type">Universidad de Antioquia · Colômbia · IA aplicada</div><h3>Inteligencia Artificial para las Ciencias e Ingenierías</h3><p>Materiais abertos em espanhol com vídeos e notebooks de Python, dados e aprendizado de máquina. Para usar avaliações e solicitar certificado, confira as condições de registro da plataforma.</p><p><a href="https://rramosp.github.io/ai4eng.v1/" target="_blank" rel="noopener noreferrer">Explorar curso da UdeA ↗</a></p></article>
+            </div>
+
+            <h3>Europa e Reino Unido</h3>
+            <p class="directory-note">No Reino Unido, <a href="#oxford">explore as duas opções de Oxford</a>.</p>
+            <div class="portal-grid">
+                <article id="inria-ml" class="portal-card"><div class="portal-type">Inria · França · machine learning</div><h3>Machine learning com scikit-learn</h3><p>Material gratuito em inglês com exercícios e exemplos para explorar modelos, avaliação e ajuste de parâmetros. É útil ter noções de Python; confira os recursos e as condições da plataforma para atividades e certificação.</p><p><a href="https://inria.github.io/scikit-learn-mooc/" target="_blank" rel="noopener noreferrer">Estudar com a Inria ↗</a></p></article>
+                <article id="lmu-ml" class="portal-card"><div class="portal-type">LMU Munique · Alemanha · machine learning</div><h3>Introduction to Machine Learning</h3><p>Curso gratuito em inglês para estudo independente, com vídeos, slides, exercícios, soluções e notebooks. Começa com fundamentos práticos e avança para teoria e aplicações.</p><p><a href="https://slds-lmu.github.io/i2ml/" target="_blank" rel="noopener noreferrer">Explorar curso da LMU ↗</a></p></article>
+                <article id="vu-ml" class="portal-card"><div class="portal-type">VU Amsterdam · Países Baixos · machine learning</div><h3>Machine Learning @ VU</h3><p>Materiais públicos em inglês com aulas, exercícios e notebooks sobre modelos, avaliação, redes neurais e outros temas. Algumas atividades são destinadas a alunos matriculados; confira a edição de cada recurso.</p><p><a href="https://mlvu.github.io/" target="_blank" rel="noopener noreferrer">Ver materiais da VU ↗</a></p></article>
+                <article id="uva-dl" class="portal-card"><div class="portal-type">University of Amsterdam · Países Baixos · deep learning</div><h3>UvA Deep Learning Tutorials</h3><p>Notebooks em inglês para praticar PyTorch e explorar Transformers, otimização e redes em grafos. Os materiais indicam as edições de 2025 e 2026; confira o acesso às demais atividades do curso.</p><p><a href="https://uvadlc-notebooks.readthedocs.io/" target="_blank" rel="noopener noreferrer">Abrir tutoriais da UvA ↗</a></p></article>
+                <article id="austria-ml" class="portal-card"><div class="portal-type">TU Wien e JKU Linz · Áustria · IA e ML</div><h3>Artificial Intelligence and Machine Learning</h3><p>MOOC gratuito em inglês, com nove unidades sobre dados, algoritmos, avaliação e justiça em IA. Recomenda conhecimentos de programação e matemática; o acesso completo requer cadastro na iMooX.</p><p><a href="https://imoox.at/course/AIundML-1NG02024?lang=en" target="_blank" rel="noopener noreferrer">Ver curso na iMooX ↗</a></p></article>
+                <article id="mdu-ml" class="portal-card"><div class="portal-type">Mälardalen University · Suécia · fundamentos</div><h3>Basic Knowledge on Machine Learning</h3><p>Introdução gratuita em inglês a IA, ML, dados, matemática e Python. A universidade estima 50 a 60 horas; o MOOC não concede créditos universitários.</p><p><a href="https://open.mdu.se/browse/idt/courses/basic-knowledge-on-machine-learning" target="_blank" rel="noopener noreferrer">Ver curso da MDU ↗</a></p></article>
+                <article id="helsinki-etica" class="portal-card"><div class="portal-type">University of Helsinki · Finlândia · ética</div><h3>Ethics of AI</h3><p>Curso gratuito em inglês, para estudar no próprio ritmo, sobre transparência, responsabilidade, direitos humanos e justiça em IA. Complementa as trilhas técnicas com reflexão sobre impactos.</p><p><a href="https://ethics-of-ai.mooc.fi/" target="_blank" rel="noopener noreferrer">Explorar ética em IA ↗</a></p></article>
+                <article id="openlearn-ia" class="portal-card"><div class="portal-type">Open University · Reino Unido · introdução</div><h3>An introduction to artificial intelligence</h3><p>Curso introdutório gratuito em inglês sobre história, oportunidades e implicações sociais e éticas da IA. A instituição estima seis horas e oferece declaração de participação mediante conclusão.</p><p><a href="https://www.open.edu/openlearn/education-development/ai-matters/content-section-overview" target="_blank" rel="noopener noreferrer">Ver curso no OpenLearn ↗</a></p></article>
+            </div>
+
+            <h3>Ásia e África</h3>
+            <div class="portal-grid">
+                <article id="india-nptel" class="portal-card"><div class="portal-type">IIT Delhi e IIT Bombay · Índia · linguagem</div><h3>Introduction to Large Language Models</h3><p>Referência do NPTEL sobre modelos de linguagem, Transformers e adaptação de modelos. O programa NPTEL oferece estudo gratuito e prova opcional para certificação; a turma de 2026 encerrou, portanto confira o acesso aos materiais e próximas edições.</p><p><a href="https://nptel.ac.in/courses/106102576" target="_blank" rel="noopener noreferrer">Ver referência do curso ↗</a> · <a href="https://nptel.ac.in/" target="_blank" rel="noopener noreferrer">Condições do NPTEL ↗</a></p></article>
+                <article id="cmu-africa" class="portal-card"><div class="portal-type">Carnegie Mellon Africa · África · programa com seleção</div><h3>Certificate in Artificial Intelligence for Africa</h3><p>Programa online de seis cursos, com Python, matemática, ML e IA generativa no contexto africano. Gratuito para candidatos qualificados, sujeito a seleção e vagas; exige base matemática e programação. Consulte elegibilidade e datas antes de se candidatar.</p><p><a href="https://www.africa.engineering.cmu.edu/academics/ai-certificate/index.html" target="_blank" rel="noopener noreferrer">Ver programa e condições ↗</a></p></article>
+            </div>
+        </section>
+
+        <section id="livros">
+            <div class="section-header">
+                <h2 class="section-title">Livros e leituras de apoio</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Livro / Obra de Referência</th>
+                            <th>Autores</th>
+                            <th>Disciplina</th>
+                            <th>Acesso Oficial (PDF / Web)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Speech and Language Processing (3rd Ed.)</strong></td>
+                            <td>Dan Jurafsky &amp; James H. Martin</td>
+                            <td><code>CS224N / CS336</code></td>
+                            <td><a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener noreferrer">web.stanford.edu/~jurafsky/slp3 ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CS229 Lecture Notes</strong></td>
+                            <td>Andrew Ng &amp; Tengyu Ma</td>
+                            <td><code>CS229</code></td>
+                            <td><a href="https://cs229.stanford.edu/main_notes.pdf" target="_blank" rel="noopener noreferrer">cs229.stanford.edu/main_notes.pdf ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>The Elements of Statistical Learning</strong></td>
+                            <td>Trevor Hastie, Robert Tibshirani, Jerome Friedman</td>
+                            <td><code>CS229</code></td>
+                            <td><a href="https://hastie.su.domains/ElemStatLearn/" target="_blank" rel="noopener noreferrer">hastie.su.domains/ElemStatLearn ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>An Introduction to Statistical Learning</strong></td>
+                            <td>G. James, D. Witten, T. Hastie, R. Tibshirani</td>
+                            <td><code>CS229 (Base)</code></td>
+                            <td><a href="https://www.statlearning.com/" target="_blank" rel="noopener noreferrer">statlearning.com ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Algorithms for Decision Making</strong></td>
+                            <td>Mykel J. Kochenderfer et al.</td>
+                            <td><code>CS221</code></td>
+                            <td><a href="https://algorithmsbook.com/" target="_blank" rel="noopener noreferrer">algorithmsbook.com ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reinforcement Learning: An Introduction (2nd Ed.)</strong></td>
+                            <td>Richard S. Sutton &amp; Andrew G. Barto</td>
+                            <td><code>CS221 / CS285</code></td>
+                            <td><a href="http://incompleteideas.net/book/the-book-2nd.html" target="_blank" rel="noopener noreferrer">incompleteideas.net/book ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Understanding Deep Learning</strong></td>
+                            <td>Simon J.D. Prince</td>
+                            <td><code>CS231N / CS224N</code></td>
+                            <td><a href="https://udlbook.github.io/udlbook/" target="_blank" rel="noopener noreferrer">udlbook.github.io/udlbook ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deep Learning Book</strong></td>
+                            <td>Ian Goodfellow, Yoshua Bengio, Aaron Courville</td>
+                            <td><code>CS231N / CS224N</code></td>
+                            <td><a href="https://www.deeplearningbook.org/" target="_blank" rel="noopener noreferrer">deeplearningbook.org ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mathematics for Machine Learning</strong></td>
+                            <td>M. P. Deisenroth, A. A. Faisal, C. S. Ong</td>
+                            <td><code>Fundamentos</code></td>
+                            <td><a href="https://mml-book.github.io/" target="_blank" rel="noopener noreferrer">mml-book.github.io ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Convex Optimization</strong></td>
+                            <td>Stephen Boyd (EE364A) &amp; L. Vandenberghe</td>
+                            <td><code>CS229 (Avançado)</code></td>
+                            <td><a href="https://web.stanford.edu/~boyd/cvxbook/" target="_blank" rel="noopener noreferrer">web.stanford.edu/~boyd/cvxbook ↗</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="complementares">
+            <div class="section-header">
+                <h2 class="section-title">Mais cursos e seminários de Stanford</h2>
+            </div>
+            <div class="portal-grid">
+                <div class="portal-card" id="seminario-cs224u">
+                    <div class="portal-type">CS224U · NLP · EDIÇÃO 2023</div>
+                    <h3>Natural Language Understanding</h3>
+                    <p>Compreensão de linguagem natural, com materiais, notebooks e referências. A página disponibilizada é da edição de 2023; algumas atividades podem exigir acesso institucional.</p>
+                    <p><a href="https://web.stanford.edu/class/cs224u/" target="_blank" rel="noopener noreferrer">Página da disciplina ↗</a> · <a href="https://web.stanford.edu/class/cs224u/background.html" target="_blank" rel="noopener noreferrer">Bases recomendadas ↗</a></p>
+                </div>
+                <div class="portal-card" id="seminario-cs230">
+                    <div class="portal-type">CS230 · DEEP LEARNING</div>
+                    <h3>Deep Learning</h3>
+                    <p>Fundamentos de redes neurais e projetos de aprendizado profundo. A página liga às aulas de 2018; verifique as condições de acesso às atividades e às edições posteriores.</p>
+                    <p><a href="https://cs230.stanford.edu/" target="_blank" rel="noopener noreferrer">Página da disciplina ↗</a></p>
+                </div>
+                <div class="portal-card" id="seminario-cs234">
+                    <div class="portal-type">CS234 · Emma Brunskill</div>
+                    <h3>Reinforcement Learning</h3>
+                    <p style="margin-bottom: 0.5rem;"><a href="https://web.stanford.edu/class/cs234/" target="_blank" rel="noopener noreferrer">Site Oficial ↗</a></p>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOSOPzutgyCTapiGlY2Nd8u" target="_blank" rel="noopener noreferrer">Playlist no YouTube ↗</a>
+                </div>
+                <div class="portal-card" id="seminario-cs224w">
+                    <div class="portal-type">CS224W · Jure Leskovec</div>
+                    <h3>Machine Learning with Graphs</h3>
+                    <p style="margin-bottom: 0.5rem;"><a href="https://web.stanford.edu/class/cs224w/" target="_blank" rel="noopener noreferrer">Site Oficial ↗</a></p>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rPLKxIpqhjhPgdQy7imNkDn" target="_blank" rel="noopener noreferrer">Playlist no YouTube ↗</a>
+                </div>
+                <div class="portal-card" id="seminario-cs236">
+                    <div class="portal-type">CS236 · Stefano Ermon · edição 2023</div>
+                    <h3>Deep Generative Models</h3>
+                    <p style="margin-bottom: 0.5rem;"><a href="https://deepgenerativemodels.github.io/" target="_blank" rel="noopener noreferrer">Site Oficial ↗</a></p>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rPOWA-omMM6STXaWW4FvJT8" target="_blank" rel="noopener noreferrer">Playlist no YouTube ↗</a>
+                </div>
+                <div class="portal-card" id="seminario-cs25">
+                    <div class="portal-type">CS25 · Seminar</div>
+                    <h3>Transformers United</h3>
+                    <p style="margin-bottom: 0.5rem;"><a href="https://web.stanford.edu/class/cs25/" target="_blank" rel="noopener noreferrer">Site Oficial ↗</a></p>
+                    <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM" target="_blank" rel="noopener noreferrer">Playlist no YouTube ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Validation & Proof of Work -->
+        <section id="validacao">
+            <div class="section-header">
+                <h2 class="section-title">Prática, avaliação e portfólio</h2>
+            </div>
+            <ul class="assignments-list">
+                <li class="assignment-item emerald">
+                    <strong>1. Materiais para praticar e avaliar seu trabalho</strong>
+                    • <strong>UC Berkeley CS294-196 (Agentic AI):</strong> Consulte em <a href="https://llmagents-learning.org/sp25" target="_blank" rel="noopener noreferrer">llmagents-learning.org</a> os materiais, atividades e condições de participação e certificação disponíveis.<br>
+                    • <strong>CMU 10-714 (Deep Learning Systems):</strong> Consulte o curso em <a href="https://dlsyscourse.org/" target="_blank" rel="noopener noreferrer">dlsyscourse.org</a> para conhecer os projetos e as condições de acesso ao sistema de avaliação <code>mugrade</code>.<br>
+                    • <strong>CMU 15-445 (Database Systems):</strong> Explore os projetos do motor <code>BusTub</code> e confira no curso as condições de acesso e submissão.<br>
+                    • <strong>Hugging Face &amp; Made With ML:</strong> Explore atividades e materiais em <a href="https://huggingface.co/learn" target="_blank" rel="noopener noreferrer">huggingface.co/learn</a> e <a href="https://madewithml.com/" target="_blank" rel="noopener noreferrer">madewithml.com</a>; confira as opções de certificação diretamente em cada plataforma.
+                </li>
+                <li class="assignment-item">
+                    <strong>2. Um portfólio de projetos reproduzíveis</strong>
+                    Para demonstrar o que você construiu, considere reunir projetos e benchmarks reproduzíveis em um repositório público. Alguns exemplos:<br>
+                    • <strong>Pilar 1 (Stanford CS336):</strong> Tokenizador BPE, arquitetura Transformer com RMSNorm/SwiGLU/RoPE, kernel FlashAttention-2 em Triton e pipeline de alinhamento DPO/GRPO.<br>
+                    • <strong>Pilar 2 (CMU 10-714):</strong> Motor próprio de diferenciação automática reversa e kernels matriciais acelerados em hardware.<br>
+                    • <strong>Pilar 3 (MIT 6.5940):</strong> Motor de quantização AWQ/INT4 com métricas reais de <em>throughput</em> (tokens/s), latência (TTFT) e redução de VRAM em hardware local.
+                </li>
+            </ul>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    (() => {
+        const nav = document.getElementById('guia-nav');
+        const toggle = document.getElementById('mobile-menu');
+        function updateCurrent() {
+            const aliases = { '#outros-caminhos': '#harvard', '#pos-mundial': '#cmu' };
+            const hash = aliases[location.hash] || location.hash || '#visao-geral';
+            const target = document.getElementById(hash.slice(1));
+            const sectionHash = target?.closest('section')?.id;
+            const exactLink = Array.from(nav.querySelectorAll('a[href^="#"]')).find(link => link.getAttribute('href') === hash);
+            const activeHash = exactLink ? hash : (sectionHash ? '#' + sectionHash : hash);
+            nav.querySelectorAll('a[href^="#"]').forEach(link => {
+                if (link.getAttribute('href') === activeHash) link.setAttribute('aria-current', 'location');
+                else link.removeAttribute('aria-current');
+            });
+            const active = Array.from(nav.querySelectorAll('a[href^="#"]')).find(link => link.getAttribute('href') === activeHash);
+            const group = active && active.closest('.course-nav');
+            if (group) group.open = true;
+        }
+        nav.addEventListener('click', event => {
+            const link = event.target.closest('a[href^="#"]');
+            if (link && matchMedia('(max-width: 980px)').matches) {
+                const target = document.getElementById(link.getAttribute('href').slice(1));
+                toggle.checked = false;
+                if (target) {
+                    target.setAttribute('tabindex', '-1');
+                    requestAnimationFrame(() => target.focus({ preventScroll: true }));
+                }
+            }
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && toggle.checked && matchMedia('(max-width: 980px)').matches) {
+                toggle.checked = false;
+                toggle.focus();
+            }
+        });
+        nav.querySelectorAll('.course-nav').forEach(group => {
+            group.addEventListener('toggle', () => {
+                if (group.open) nav.querySelectorAll('.course-nav').forEach(other => { if (other !== group) other.open = false; });
+            });
+        });
+        addEventListener('hashchange', updateCurrent);
+        updateCurrent();
+    })();
+</script>
+</body>
+</html>
