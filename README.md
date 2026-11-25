@@ -12,3 +12,7 @@ O Universal AI é um guia independente, escrito em português, para quem quer es
 - **Se quer aplicar o que estudou**, consulte as sugestões para desenvolver um projeto, avaliar os resultados e documentar o trabalho no seu portfólio. [Explorar prática e portfólio](https://stanford-elite-ai-guide.netlify.app/#validacao)
 
 As fichas apontam para as páginas de origem, onde você pode consultar a edição do material, os pré-requisitos e as condições de acesso de cada curso.
+
+## Publicação
+
+O Netlify publica o guia automaticamente a cada push na branch . A página é estática e o conteúdo principal fica em .
