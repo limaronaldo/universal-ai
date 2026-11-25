@@ -2,6 +2,8 @@
 
 **[Abrir o guia Universal AI no Netlify](https://stanford-elite-ai-guide.netlify.app/)**
 
+[![Status da publicação no Netlify](https://api.netlify.com/api/v1/badges/3ae4a003-6479-4440-93fa-c95ecc125938/deploy-status?branch=main)](https://app.netlify.com/projects/stanford-elite-ai-guide/deploys)
+
 O Universal AI é um guia independente, escrito em português, para quem quer estudar inteligência artificial por conta própria. Reúne cursos, aulas, livros e ideias de projetos e mostra como os assuntos se conectam. Você pode começar por programação em Python, aprender a treinar e avaliar modelos ou se aprofundar em temas como visão computacional e modelos de linguagem.
 
 ## Como usar o guia
